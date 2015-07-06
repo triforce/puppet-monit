@@ -31,7 +31,12 @@ class monit::params {
           }
         }
         'Ubuntu': {
-          $init_system = 'upstart'
+          if $::lsbmajdistrelease < 15 {
+            $init_system = 'upstart'
+          }
+          else {
+            $init_system = 'systemd'
+          }
         }
         default: {
           fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} only support operatingsystem Debian and Ubuntu on osfamily Debian")
